@@ -1,0 +1,9 @@
+server: 0.0.0.0
+port: 11000
+worker-queue: ''
+
+protocol:
+    lj:
+        timeout: 60
+        retry-attemps: 5
+
