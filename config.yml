@@ -1,7 +1,12 @@
-server: 0.0.0.0
-port: 11000
+redis-server: 127.0.0.1
+redis-port: 11000
 worker-queue: ''
-
+db_server: 0.0.0.0
+db_port: 
+db_user: 
+db_password: 
+db_database: 
+    
 protocol:
     lj:
         timeout: 60

@@ -1,6 +1,26 @@
-require 'resque/tasks'
-require 'configuration'
+require 'bundler'
+Bundler.require(:default)
 
-task "ls:test" do
-    puts 'test passed'
+require 'resque/tasks'
+require 'resque'
+require 'ljapi'
+
+
+
+class Packager
+  @queue = :package
+  
+  def self.perform(operation_id, data)
+    # package data and send it to job-redis
+  end
+end
+
+class Miner
+  @queue = :mine
+  
+  def self.perform(operation_id, username, password)
+    data = LJAPI::Request::GetPosts.new(username,password).run
+    data = JSON.generate(data)
+    Resque.enqueue(Packager, operation_id, data)
+  end
 end
