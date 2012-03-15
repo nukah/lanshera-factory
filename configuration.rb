@@ -1,8 +1,6 @@
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../../'
-require 'rubygems'
+#$LOAD_PATH.unshift File.dirname(__FILE__) + '/../../'
 require 'yaml'
 require 'resque'
-require 'data_mapper'
 
 class Configuration
 
@@ -38,8 +36,5 @@ class Configuration
   end
 end
 
-@config = Configuration.new(YAML.load_file(File.join(Dir.pwd,'config.yml')))
-Resque.redis = Redis.new(:host => @config.server, :port => @config.port)
-
-puts Resque.redis
-DataMapper.setup(:default, 'sqlite:///Users/Mighty/code/lanshera/db/lanshera.db')
+@@config = Configuration.new(YAML.load_file(File.join(Dir.pwd,'config.yml')))
+Resque.redis = Redis.new(:host => @@config.redis_server, :port => @@config.redis_port)
