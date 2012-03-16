@@ -40,3 +40,13 @@ class Miner
     Resque.enqueue(Packager, operation_id, data)
   end
 end
+
+class Commenter
+  @queue = @@config.subscribe_queue
+  
+  def self.perform(operation_id, username, password, journal, post_id, subject, text)
+    data = LJAPI::Request::AddComment.new(username, password, journal, post_id, subject, text).run
+    data = JSON.generate(data)
+    resque.enqueue(Packager, operation_id, data)
+  end
+end
