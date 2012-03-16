@@ -3,6 +3,7 @@
 `Factory -> Workers -> Processes [ import, add, track ]`
 
 RM project page: [dev](http://dev.sevenquark.com/projects/rb)
+APIdoc: [link](http://pastebin.com/R4QrLpZJ)
 
 # Разворачивание среды
 
