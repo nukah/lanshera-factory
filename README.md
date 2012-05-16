@@ -7,7 +7,8 @@ APIdoc: [link](http://pastebin.com/R4QrLpZJ)
 
 # Разворачивание среды
 
-1. Установка RVM: [https://rvm.beginrescueend.com/](https://rvm.beginrescueend.com/)
+1. Установка RVM: 
+`curl -L get.rvm.io | bash -s stable`
 2. Клонирование репозитория
 `git clone git@github.com:nukah/lanshera-factory.git`
 3. Установка ruby-1.9.3 и создание гемов
