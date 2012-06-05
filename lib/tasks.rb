@@ -41,6 +41,7 @@ class Digger
         data = JSON.generate(data)
         Resque.enqueue(Packager, operation_id, data)
     end
+  end
 end
 
 class Commenter
