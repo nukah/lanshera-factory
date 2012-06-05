@@ -14,9 +14,9 @@ end
 class Miner
   @queue = @@config.subscribe_queue
   
-  def self.perform(operation_id, username, password)
+  def self.perform(operation_id, username, password, options = nil)
     begin
-      data = LJAPI::Request::GetPosts.new(username,password).run
+      data = LJAPI::Request::GetPosts.new(username,password,options).run
     rescue Exception => e
       data = { :success => false, :data => e.message }
     ensure
@@ -27,6 +27,20 @@ class Miner
   def to_s
     ''
   end
+end
+
+class Digger
+  @queue = @@config.subscribe_queue
+
+  def self.perform(operation_id, username, password, journal_id, post_id, options = nil)
+    begin
+        data = LJAPI::Request::GetPost.new(username, password, journal_id, post_id, options).run
+    rescue Exception => e
+        data = { :success => false, :data => e.message }
+    ensure
+        data = JSON.generate(data)
+        Resque.enqueue(Packager, operation_id, data)
+    end
 end
 
 class Commenter
