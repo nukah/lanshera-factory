@@ -23,8 +23,9 @@ class InitialImport
       posts = []
       if post_count > 100
         while import_ids.length > 0 do
-          posts << LJAPI::Request::GetPosts.new(username, password, { 'itemids' => import_ids.slice!(0,100).join(',') }).run[:data]['events']
+          posts.insert(-1,LJAPI::Request::GetPosts.new(username, password, { 'itemids' => import_ids.slice!(0,100).join(',') }).run[:data]['events'])
         end
+        puts posts
         data = { :success => true, :data => { 'events' => posts.flatten }}
       else
         data = LJAPI::Request::GetPosts.new(username,password,options).run
