@@ -28,7 +28,7 @@ class InitialImport
         puts posts
         data = { :success => true, :data => { 'events' => posts.flatten }}
       else
-        data = LJAPI::Request::GetPosts.new(username,password,options).run
+        data = LJAPI::Request::GetPosts.new(username,password).run
       end
     rescue Exception => e
       data = { :success => false, :data => e.message }
