@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'resque', :require => 'resque'
 gem 'rake'
-gem 'ljapi', :path => 'ljapi'
+gem 'ljapi', :git => 'git://github.com/nukah/ljapi.git' 
 
 group :test do
     gem 'rspec'
