@@ -1,7 +1,6 @@
 require 'bundler'
 Bundler.require(:default)
 require 'ljapi'
-require 'lanshera'
 
 JSON.generator = JSON::Ext::Generator
 
@@ -13,7 +12,23 @@ class Packager
   end
 end
 
-class InitialImport
+class LJAccess
+  @queue = @@config.subscribe_queue
+  
+  def self.perform(operation_id, username, password)
+    begin
+      result = LJAPI::Request::AccessCheck.new(username, password).run
+      result.delete :data
+    rescue Exception => e
+      data = { :success => false, :data => e.message }
+    ensure
+      data = JSON.generate(data)
+      Resque.enqueue(Packager, operation_id, data)
+    end
+  end
+end
+
+class LJImport
   @queue = @@config.subscribe_queue
 
   def self.perform(operation_id, username, password)
@@ -39,7 +54,7 @@ class InitialImport
   end
 end
 
-class Miner
+class LJUpdate
   @queue = @@config.subscribe_queue
   
   def self.perform(operation_id, username, password, options = nil)
@@ -58,7 +73,7 @@ class Miner
   end
 end
 
-class Digger
+class LJPost
   @queue = @@config.subscribe_queue
 
   def self.perform(operation_id, username, password, journal_id, post_id, options = nil)
@@ -73,7 +88,7 @@ class Digger
   end
 end
 
-class Commenter
+class LJComment
   @queue = @@config.subscribe_queue
   
   def self.perform(operation_id, username, password, journal, post_id, subject, text)
