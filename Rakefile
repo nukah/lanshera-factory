@@ -8,7 +8,6 @@ require 'tasks'
 
 task :start, [:amount] do |task, args|
   ENV['QUEUE'] = @@config.subscribe_queue
-  ENV['VVERBOSE'] = 'TRUE' if @@config.worker_verbose
   ENV['BACKGROUND'] = 'TRUE' if @@config.worker_daemon
   ENV['PIDFILE'] = @@config.worker_daemon_pid if (@@config.worker_daemon && @@config.worker_daemon_pid)
   Rake::Task['resque:work'].execute()

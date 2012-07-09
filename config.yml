@@ -6,8 +6,6 @@ redis_port: 6379
 worker_daemons: 
 # Worker PID
 worker_daemon_pid: /var/harvester.pid
-# Logging verbose
-worker_verbose: 1
 
 # Queue for incoming messages
 subscribe_queue: 'mine'
