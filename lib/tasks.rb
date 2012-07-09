@@ -17,8 +17,7 @@ class LJAccess
   
   def self.perform(operation_id, username, password)
     begin
-      result = LJAPI::Request::AccessCheck.new(username, password).run
-      result.delete :data
+      data = LJAPI::Request::AccessCheck.new(username, password).run
     rescue Exception => e
       data = { :success => false, :data => e.message }
     ensure
@@ -40,7 +39,6 @@ class LJImport
         while import_ids.length > 0 do
           posts.insert(-1,LJAPI::Request::GetPosts.new(username, password, { 'itemids' => import_ids.slice!(0,100).join(',') }).run[:data]['events'])
         end
-        puts posts
         data = { :success => true, :data => { 'events' => posts.flatten }}
       else
         data = LJAPI::Request::GetPosts.new(username,password).run
