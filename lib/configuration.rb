@@ -1,8 +1,6 @@
 require 'yaml'
-require 'resque'
 
 class Configuration
-
   def initialize(data={})
     @data = {}
     update!(data)
@@ -36,4 +34,9 @@ class Configuration
 end
 
 @@config = Configuration.new(YAML.load_file(File.join(Dir.pwd,'config.yml')))
-Resque.redis = Redis.new(:host => @@config.redis_server, :port => @@config.redis_port)
+Sidekiq.configure_server do |config|
+  config.redis = { :url => "redis://#{@@config.redis_server}:#{@@config.redis_port}", :namespace => 'resque' }
+end
+Sidekiq.configure_client do |config|
+  config.redis = { :url => "redis://#{@@config.redis_server}:#{@@config.redis_port}", :namespace => 'resque' }
+end

@@ -1,12 +1,6 @@
 # Redis server information
 redis_server: 127.0.0.1
 redis_port: 6379
-
-# Run worker as daemon
-worker_daemons: 
-# Worker PID
-worker_daemon_pid: /var/harvester.pid
-
 # Queue for incoming messages
 subscribe_queue: 'mine'
 # Queue for outgoing messages
@@ -17,4 +11,11 @@ protocol:
     lj:
         timeout: 60
         retry_attemps: 5
-
+        
+# Sidekiq specifiq
+:verbose: false
+:queues:
+    - [mine, 1]
+:require: "./lib/tasks.rb"
+:enable_rails_extensions: false
+:pidfile: ./sidekiq.pid
