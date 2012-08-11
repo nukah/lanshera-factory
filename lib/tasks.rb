@@ -94,7 +94,7 @@ class LJPost
     @journal = journal_id.to_s
     @post_id = post_id.to_s
     begin
-      @data = LJAPI::Request::GetPost.new(@username, @password, @journal_id, @post_id, options).run
+      @data = LJAPI::Request::GetPost.new(@username, @password, @journal, @post_id, options).run
     rescue Exception => e
       @data = { :success => false, :data => e.message }
     ensure
