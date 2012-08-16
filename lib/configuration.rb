@@ -1,4 +1,5 @@
 require 'yaml'
+require 'sidekiq'
 
 class Configuration
   def initialize(data={})

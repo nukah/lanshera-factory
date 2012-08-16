@@ -8,6 +8,7 @@ set :use_sudo, false
 set :user, application
 set :deploy_via, :remote_cache
 set :deploy_to, "/home/#{application}"
+
 role :app, "remote.host.ip"
 
 set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
