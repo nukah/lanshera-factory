@@ -40,8 +40,8 @@ class LJImport
     @password = password.to_s
     @operation = operation_id.to_s
     begin
-      post_count = LJAPI::Request::GetPost.new(@username, @password, @username, -1).run[:data]['events'][0]['itemid'].to_i
-      import_ids = (1..post_count).to_a
+      count = LJAPI::Request::CountPosts.new(@username, @password).run
+      post_ids = (1..count).to_a
       posts = []
       if post_count > 100
         while import_ids.length > 0 do
