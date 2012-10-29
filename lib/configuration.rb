@@ -35,9 +35,10 @@ class Configuration
 end
 
 @@config = Configuration.new(YAML.load_file(File.join(Dir.pwd,'config.yml')))
+redis_url = "redis://#{@@config.redis_server}:#{@config.redis_port}"
 Sidekiq.configure_server do |config|
-  config.redis = { :url => "redis://#{@@config.redis_server}:#{@@config.redis_port}", :namespace => 'resque' }
+  config.redis = { :url => redis_url, :namespace => 'resque' }
 end
 Sidekiq.configure_client do |config|
-  config.redis = { :url => "redis://#{@@config.redis_server}:#{@@config.redis_port}", :namespace => 'resque' }
+  config.redis = { :url => redis_url, :namespace => 'resque' }
 end
