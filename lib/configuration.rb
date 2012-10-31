@@ -1,5 +1,6 @@
 require 'yaml'
 require 'sidekiq'
+require 'ljapi'
 
 class Configuration
   def initialize(data={})
