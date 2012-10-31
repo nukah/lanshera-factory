@@ -23,8 +23,6 @@ class LJAccess
     @operation = operation_id.to_s
     begin
       @data = LJAPI::Request::AccessCheck.new(@username, @password).run
-    rescue Exception => e
-      @data = { :success => false, :data => e.message }
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
@@ -41,23 +39,10 @@ class LJImport
     @password = password.to_s
     @operation = operation_id.to_s
     begin
-      count = LJAPI::Request::CountPosts.new(@username, @password).run
-      post_ids = (1..count).to_a
-      posts = []
-      if count > 100
-        while post_ids.length > 0 do
-          posts.insert(-1, LJAPI::Request::GetPosts.new(@username, @password, { 'itemids' => post_ids.slice!(0,100).join(',') }).run[:data]['events'])
-        end
-        @data = { :success => true, :data => { 'events' => posts.flatten }}
-      else
-        @data = LJAPI::Request::GetPosts.new(@username,@password).run
-      end
-    rescue Exception => e
-      @data = { :success => false, :data => e.message }
+      @data = LJAPI::Request::ImportPosts.new(@username, @password)
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
-      return @data
     end
   end
 end
@@ -71,10 +56,9 @@ class LJUpdate
     @password = password.to_s
     @options = options
     @operation = operation_id.to_s
+    @options['since'] ||= Time.now - 86400
     begin
-      @data = LJAPI::Request::GetPosts.new(@username,@password,@options).run if @options.has_key?('since')
-    rescue Exception => e
-      @data = { :success => false, :data => e.message }
+      @data = LJAPI::Request::GetPosts.new(@username,@password,@options).run
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
@@ -94,8 +78,6 @@ class LJPost
     @post_id = post_id.to_s
     begin
       @data = LJAPI::Request::GetPost.new(@username, @password, @journal, @post_id, options).run
-    rescue Exception => e
-      @data = { :success => false, :data => e.message }
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
@@ -117,8 +99,6 @@ class LJComment
     @text = text.to_s
     begin
       @data = LJAPI::Request::AddComment.new(@username, @password, @journal, @post, @subject, @text).run
-    rescue Exception => e
-      @data = { :success => false, :data => e.message }
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
