@@ -39,7 +39,7 @@ class LJImport
     @password = password.to_s
     @operation = operation_id.to_s
     begin
-      @data = LJAPI::Request::ImportPosts.new(@username, @password)
+      @data = LJAPI::Request::ImportPosts.new(@username, @password).run
     ensure
       @data = JSON.generate(@data)
       Packager.perform_async(@operation, @data)
