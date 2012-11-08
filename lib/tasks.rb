@@ -21,6 +21,7 @@ class LJAccess
     @username = username.to_s
     @password = password.to_s
     @operation = operation_id.to_s
+    logger.info("Performing task on LJAPI version: #{LJAPI::Utils.version}")
     begin
       @data = LJAPI::Request::AccessCheck.new(@username, @password).run
     ensure
@@ -38,6 +39,7 @@ class LJImport
     @username = username.to_s
     @password = password.to_s
     @operation = operation_id.to_s
+    logger.info("Performing task on LJAPI version: #{LJAPI::Utils.version}")
     begin
       @data = LJAPI::Request::ImportPosts.new(@username, @password).run
     ensure
