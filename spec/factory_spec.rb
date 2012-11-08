@@ -1,18 +1,14 @@
-require 'configuration'
-require 'tasks'
-require 'sidekiq/testing'
-
+require 'factory_helper'
 
 describe "Workers" do
-
 	before :each do
 		@credentials = { login: 'fir3', password: 'f403b0755e1edb2b6e3cd7bc443bf4dc' }
-		@operation_id = Random.new.rand(1..1000000)
+		@operation = Random.new.rand(1..1000000)
 	end
 	describe LJImport do
 		it "queue job for importing posts and having at least one full post" do
-			LJImport.perform_async(@operation_id, @credentials[:login], @credentials[:password])
-			puts LJImport.jobs
+			job = LJImport.new.perform(@operation, @credentials[:login], @credentials[:password])
+			puts job
 		end
 	end
 

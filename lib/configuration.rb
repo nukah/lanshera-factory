@@ -45,5 +45,5 @@ Sidekiq.configure_client do |config|
   config.redis = { :url => redis_url, :namespace => 'resque' }
 end
 LJAPI::Cache.configure do |config|
-  config.store = { :url => memcache_url, :expires => 300 } 
+  config.store({ :url => memcache_url, :expires => 300 }) 
 end
