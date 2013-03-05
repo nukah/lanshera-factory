@@ -4,8 +4,7 @@ gem 'sidekiq'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'rake'
-gem 'ljapi', :git => 'git://github.com/nukah/ljapi.git' 
-gem 'dalli'
+gem 'ljapi', :git => 'https://github.com/nukah/ljapi.git', :branch => 'v2'
 
 group :development do
     gem 'pry'
