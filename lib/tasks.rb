@@ -1,9 +1,11 @@
+$:.push(File.join(Dir.getwd, 'lib/'))
 require "bundler"
+Bundler.setup(:default)
 require 'configuration'
 require 'json/ext'
 require 'ljapi'
 
-Bundler.setup(:default)
+
 
 class Packager
   include Sidekiq::Worker
