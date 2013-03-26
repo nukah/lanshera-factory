@@ -53,6 +53,7 @@ class LJImport
       end
     ensure
       logger.info("#{operation}: Result: #{data[:success]}.")
+      logger.info("Cause: #{data}") unless data[:success]
       data = JSON.generate(data)
       Packager.perform_async(operation, data)
     end
@@ -78,6 +79,7 @@ class LJUpdate
       end
     ensure
       logger.info("#{operation}: Result: #{data[:success]}.")
+      logger.info("Cause: #{data}") unless data[:success]
       data = JSON.generate(data)
       Packager.perform_async(operation, data)
     end
@@ -104,6 +106,7 @@ class LJPost
       end
     ensure
       logger.info("#{operation}: Result: #{data[:success]}.")
+      logger.info("Cause: #{data}") unless data[:success]
       data = JSON.generate(data)
       Packager.perform_async(operation, data)
     end
@@ -132,6 +135,7 @@ class LJComment
       end
     ensure
       logger.info("#{operation}: Result: #{data[:success]}.")
+      logger.info("Cause: #{data}") unless data[:success]
       data = JSON.generate(data)
       Packager.perform_async(operation, data)
     end
